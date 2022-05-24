@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Text/Image Encoder</title>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+</head>
+
+<body id="main">
+    <h1 class="">Text/Image Encoder</h1>
+
+    <div>
+        <label class="aa" for="image">Load image</label>
+        <input class="aa" type="file" id="image" oninput = "loadimage(event);">
+        <span id="tempDL"></span>
+    </div>
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <div>
+        <label class="aa" for="width">Width</label>
+        <input class="aa" type="number" id="width" value="10" min="1">
+        <label class="aa" for="height">Height</label>
+        <input class="aa" type="number" id="height" value="10" min="1">
+        <input class="aa" type="checkbox" id="expanddir" >
+        <label class="aa" for="expanddir">Width / Height overflow direction</label>
+    </div>
+    
+    <div>
+        <label class="aa" for="text">Load textfile</label>
+        <input class="aa" type="file" id="text" oninput = "loadtext(event);">
+        <span id="temptxtDL"></span>
+    </div>
+    <div>
+        <textarea class="aa" id="astext" rows="32" cols="32" onchange="updateimage(event);"></textarea>
+    </div>
+    
+    <script src="imagestorage.js"></script>
+</body>
+</html>
