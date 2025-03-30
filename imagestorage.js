@@ -3,9 +3,10 @@ var curtxtfilename = "none.txt";
 var curfile;
 var img = new Image();
 
+
 function downloadFile(filename, data, text = false) {
     let element = document.createElement('a');
-    element.setAttribute('href', text ? 'data:text/plain;charset=utf-8,' + encodeURIComponent(data) : URL.createObjectURL(data));
+    element.setAttribute('href', text ? 'data:application/octet-stream;base64,' + encodeURIComponent(data) : URL.createObjectURL(data));
     element.setAttribute('download', filename);
 
     element.style.display = 'none';
@@ -102,6 +103,29 @@ function imageToUnicode(data){
     return strim
 }
 
+function UInt8arrayToUnicode(inp = Uint8Array.from([1])){
+    let total = "";
+    for(let i = 0; i < inp.length; i++){
+        total += String.fromCharCode(inp[i]);
+    }
+    return total;
+}
+
+function UnicodeToUInt8array(inp = "a"){
+    let total = [];
+    for(let i = 0; i < inp.length; i++){
+        let num = inp.charCodeAt(i);
+        let out = 0;
+        do {
+            out = (num % 256);
+            num = Math.floor(num / 256);
+            total.unshift(out);
+        }
+        while (num > 0)
+    }
+    return Uint8Array.from(total);
+}
+
 function loadtext(e) {
 
     let files = e.target.files;
@@ -115,6 +139,29 @@ function loadtext(e) {
             let textbox = document.getElementById("astext");
             textbox.value = text;
             updateimage(e);
+        }
+    }
+}
+
+function loadarbitary(e) {
+
+    let files = e.target.files;
+    let file = files[0];
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = function () {
+        let text = reader.result;
+        if (text != undefined) {
+            console.log(file.type);
+            console.log(String.fromCharCode(...new Uint8Array(text)));
+            let aaaa = (new Uint8Array(text));
+            let string = "samples = ["
+            for (var i = 0; i < aaaa.length; i++) {
+                string += (aaaa[i])+", ";
+            }
+            string = string.substring(0, string.length-2) + "];";
+            console.log(string)
         }
     }
 }
